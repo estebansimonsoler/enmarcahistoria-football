@@ -62,3 +62,10 @@ button:hover {
   display:block;
   margin:20px auto;
 }
+.imagen-producto{
+  width:280px !important;
+  max-width:90%;
+  height:auto;
+  display:block;
+  margin:20px auto;
+}
