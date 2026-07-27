@@ -32,11 +32,14 @@ button {
 button:hover {
   background: #333;
 }
-.card img{
-width:220px;
-display:block;
-margin:0 auto 15px;
-border-radius:12px;
+.card img {
+    width: 220px;
+    height: 300px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 15px;
+    border-radius: 12px;
+}
 
 
 }
