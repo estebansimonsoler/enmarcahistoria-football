@@ -32,3 +32,20 @@ button {
 button:hover {
   background: #333;
 }
+.card img{
+  width:100%;
+  border-radius:12px;
+  margin-bottom:15px;
+}
+
+.card{
+  background:#1b1b25;
+  border:1px solid #333;
+  border-radius:18px;
+  padding:20px;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
