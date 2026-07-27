@@ -52,3 +52,10 @@ border-radius:12px;
 .card:hover{
   transform:translateY(-5px);
 }
+.producto img{
+  width:320px;
+  max-width:100%;
+  height:auto;
+  display:block;
+  margin:20px auto;
+}
