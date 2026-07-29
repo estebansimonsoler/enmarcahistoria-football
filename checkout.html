@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar compra | EnMarcaHistoria</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f4f1;
+            color: #171717;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 6%;
+            background: #111827;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .marca {
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .contenedor {
+            width: min(1100px, 92%);
+            margin: 45px auto;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 30px;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 30px;
+        }
+
+        .bloque {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.07);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 16px;
+            margin-bottom: 7px;
+            font-weight: 700;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .fila {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .producto-resumen {
+            padding: 14px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .producto-resumen p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 22px;
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .pagar {
+            width: 100%;
+            margin-top: 25px;
+            padding: 17px;
+            border: none;
+            border-radius: 10px;
+            background: #111827;
+            color: white;
+            font-size: 17px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .aviso {
+            display: none;
+            margin-top: 16px;
+            padding: 13px;
+            border-radius: 8px;
+            background: #e8f5e9;
+            color: #1b5e20;
+        }
+
+        @media (max-width: 800px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fila {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html" class="marca">ENMARCAHISTORIA</a>
+    <a href="carrito.html">← Volver al carrito</a>
+</header>
+
+<main class="contenedor">
+    <h1>Finalizar compra</h1>
+
+    <div class="checkout-grid">
+
+        <section class="bloque">
+            <h2>Datos de envío</h2>
+
+            <form id="formularioPedido">
+
+                <label for="nombre">Nombre y apellidos</label>
+                <input type="text" id="nombre" required>
+
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" required>
+
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" required>
+
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" required>
+
+                <div class="fila">
+                    <div>
+                        <label for="codigoPostal">Código postal</label>
+                        <input type="text" id="codigoPostal" required>
+                    </div>
+
+                    <div>
+                        <label for="ciudad">Ciudad</label>
+                        <input type="text" id="ciudad" required>
+                    </div>
+                </div>
+
+                <label for="provincia">Provincia</label>
+                <input type="text" id="provincia" required>
+
+                <label for="pais">País</label>
+                <select id="pais" required>
+                    <option value="España">España</option>
+                    <option value="Portugal">Portugal</option>
+                    <option value="Francia">Francia</option>
+                    <option value="Italia">Italia</option>
+                    <option value="Alemania">Alemania</option>
+                </select>
+
+                <button type="submit" class="pagar">
+                    Continuar al pago seguro
+                </button>
+
+                <div class="aviso" id="aviso">
+                    Datos guardados correctamente. En el siguiente paso conectaremos Stripe.
+                </div>
+            </form>
+        </section>
+
+        <aside class="bloque">
+            <h2>Resumen del pedido</h2>
+
+            <div id="resumenPedido"></div>
+
+            <div class="total">
+                <span>Total</span>
+                <span id="totalPedido">0,00 €</span>
+            </div>
+        </aside>
+
+    </div>
+</main>
+
+<script>
+    const resumenPedido = document.getElementById("resumenPedido");
+    const totalPedido = document.getElementById("totalPedido");
+    const formularioPedido = document.getElementById("formularioPedido");
+    const aviso = document.getElementById("aviso");
+
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    function obtenerNumeroPrecio(precioTexto) {
+        return Number(
+            String(precioTexto)
+                .replace("€", "")
+                .replace(/\s/g, "")
+                .replace(",", ".")
+        );
+    }
+
+    function mostrarResumen() {
+        resumenPedido.innerHTML = "";
+
+        if (carrito.length === 0) {
+            resumenPedido.innerHTML = "<p>Tu carrito está vacío.</p>";
+            totalPedido.textContent = "0,00 €";
+            return;
+        }
+
+        let total = 0;
+
+        carrito.forEach(producto => {
+            const precioUnidad = obtenerNumeroPrecio(producto.precio);
+            const cantidad = Number(producto.cantidad);
+            const subtotal = precioUnidad * cantidad;
+
+            total += subtotal;
+
+            const elemento = document.createElement("div");
+            elemento.className = "producto-resumen";
+
+            elemento.innerHTML = `
+                <strong>${producto.producto}</strong>
+                <p>Tamaño: ${producto.tamano}</p>
+                <p>Marco: ${producto.marco}</p>
+                <p>Cantidad: ${cantidad}</p>
+                <p><strong>${subtotal.toLocaleString("es-ES", {
+                    style: "currency",
+                    currency: "EUR"
+                })}</strong></p>
+            `;
+
+            resumenPedido.appendChild(elemento);
+        });
+
+        totalPedido.textContent = total.toLocaleString("es-ES", {
+            style: "currency",
+            currency: "EUR"
+        });
+    }
+
+      formularioPedido.addEventListener("submit", async function (evento) { 
+    evento.preventDefault();
+const respuesta = await fetch("/api/create-checkout-session.php");
+const sesion = await respuesta.json();
+window.location.href = "https://checkout.stripe.com/c/pay/" + sesion.id;
+
+
+        const datosCliente = {
+            nombre: document.getElementById("nombre").value,
+            email: document.getElementById("email").value,
+            telefono: document.getElementById("telefono").value,
+            direccion: document.getElementById("direccion").value,
+            codigoPostal: document.getElementById("codigoPostal").value,
+            ciudad: document.getElementById("ciudad").value,
+            provincia: document.getElementById("provincia").value,
+            pais: document.getElementById("pais").value
+        };
+
+        localStorage.setItem(
+            "datosCliente",
+            JSON.stringify(datosCliente)
+        );
+
+        aviso.style.display = "block";
+    });
+
+    mostrarResumen();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito | EnMarcaHistoria</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f4f1;
+            color: #171717;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 6%;
+            background: #111827;
+            color: white;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .marca {
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .contenedor {
+            width: min(1100px, 92%);
+            margin: 50px auto;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 42px;
+        }
+
+        .producto-carrito {
+            display: grid;
+            grid-template-columns: 110px 1fr auto;
+            gap: 20px;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 18px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.07);
+        }
+
+        .producto-carrito img {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .producto-carrito h2 {
+            margin: 0 0 10px;
+        }
+
+        .producto-carrito p {
+            margin: 6px 0;
+            color: #555;
+        }
+
+        .precio-producto {
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .eliminar {
+            margin-top: 12px;
+            padding: 9px 14px;
+            border: none;
+            border-radius: 8px;
+            background: #c62828;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .resumen {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 14px;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .vaciar {
+            margin-top: 18px;
+            padding: 12px 18px;
+            border: 2px solid #111827;
+            border-radius: 9px;
+            background: white;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .pagar {
+            display: block;
+            width: 100%;
+            margin-top: 18px;
+            padding: 17px;
+            border: none;
+            border-radius: 10px;
+            background: #111827;
+            color: white;
+            font-size: 17px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .carrito-vacio {
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            text-align: center;
+            color: #666;
+        }
+
+        @media (max-width: 700px) {
+            .producto-carrito {
+                grid-template-columns: 85px 1fr;
+            }
+
+            .producto-carrito img {
+                width: 85px;
+                height: 85px;
+            }
+
+            .precio-producto {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html" class="marca">ENMARCAHISTORIA</a>
+    <a href="index.html">← Seguir comprando</a>
+</header>
+
+<main class="contenedor">
+    <h1>Tu carrito</h1>
+
+    <div id="listaCarrito"></div>
+
+    <section class="resumen" id="resumen">
+        <div class="total">
+            <span>Total</span>
+            <span id="totalCarrito">0,00 €</span>
+        </div>
+
+        <button class="vaciar" id="vaciarCarrito">Vaciar carrito</button>
+        <button class="pagar" id="botonPagar">Finalizar compra</button>
+    </section>
+</main>
+
+<script>
+    const listaCarrito = document.getElementById("listaCarrito");
+    const totalCarrito = document.getElementById("totalCarrito");
+    const vaciarCarrito = document.getElementById("vaciarCarrito");
+    const botonPagar = document.getElementById("botonPagar");
+    const resumen = document.getElementById("resumen");
+
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    function obtenerNumeroPrecio(precioTexto) {
+        return Number(
+            String(precioTexto)
+                .replace("€", "")
+                .replace(/\s/g, "")
+                .replace(",", ".")
+        );
+    }
+
+    function mostrarCarrito() {
+        listaCarrito.innerHTML = "";
+
+        if (carrito.length === 0) {
+            listaCarrito.innerHTML = `
+                <div class="carrito-vacio">
+                    Tu carrito está vacío.
+                </div>
+            `;
+
+            resumen.style.display = "none";
+            return;
+        }
+
+        resumen.style.display = "block";
+
+        let total = 0;
+
+        carrito.forEach((producto, indice) => {
+            const precioUnidad = obtenerNumeroPrecio(producto.precio);
+            const cantidad = Number(producto.cantidad);
+            const subtotal = precioUnidad * cantidad;
+
+            total += subtotal;
+
+            const elemento = document.createElement("article");
+            elemento.className = "producto-carrito";
+
+            elemento.innerHTML = `
+                <img src="marco nogal gol iniesta.jpeg" alt="${producto.producto}">
+
+                <div>
+                    <h2>${producto.producto}</h2>
+                    <p><strong>Tamaño:</strong> ${producto.tamano}</p>
+                    <p><strong>Marco:</strong> ${producto.marco}</p>
+                    <p><strong>Cantidad:</strong> ${cantidad}</p>
+
+                    <button class="eliminar" onclick="eliminarProducto(${indice})">
+                        Eliminar
+                    </button>
+                </div>
+
+                <div class="precio-producto">
+                    ${subtotal.toLocaleString("es-ES", {
+                        style: "currency",
+                        currency: "EUR"
+                    })}
+                </div>
+            `;
+
+            listaCarrito.appendChild(elemento);
+        });
+
+        totalCarrito.textContent = total.toLocaleString("es-ES", {
+            style: "currency",
+            currency: "EUR"
+        });
+    }
+
+    function eliminarProducto(indice) {
+        carrito.splice(indice, 1);
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+        mostrarCarrito();
+    }
+
+    vaciarCarrito.addEventListener("click", () => {
+        carrito = [];
+        localStorage.removeItem("carrito");
+        mostrarCarrito();
+    });
+
+    botonPagar.addEventListener("click", () => {
+    window.location.href = "checkout.html";
+});
+
+    mostrarCarrito();
+</script>
+
+</body>
+</html>

@@ -3,35 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>España - EnMarcaHistoria</title>
-    <link rel="stylesheet" href="style.css">
+
+    <title>Gol eterno | EnMarcaHistoria</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f4f1;
+            color: #171717;
+        }
+
+        .cabecera {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 6%;
+            background: #111;
+            color: white;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .volver {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .producto {
+            width: min(1150px, 92%);
+            margin: 55px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .zona-imagen {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .imagen-producto {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            display: block;
+            margin: auto;
+            border-radius: 10px;
+        }
+
+        .coleccion {
+            display: inline-block;
+            padding: 7px 12px;
+            margin-bottom: 15px;
+            background: #e8e1d7;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: 52px;
+        }
+
+        .descripcion {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .precio {
+            margin: 25px 0;
+            font-size: 32px;
+            font-weight: 900;
+        }
+
+        .grupo {
+            margin-bottom: 25px;
+        }
+
+        .titulo-opcion {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .opciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .opcion input {
+            display: none;
+        }
+
+        .opcion label {
+            display: block;
+            padding: 12px 16px;
+            border: 2px solid #d0d0d0;
+            border-radius: 9px;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .opcion input:checked + label {
+            border-color: #111;
+            background: #111;
+            color: white;
+        }
+
+        .cantidad {
+            width: 80px;
+            padding: 12px;
+            border: 2px solid #d0d0d0;
+            border-radius: 9px;
+            font-size: 16px;
+        }
+
+        .boton-carrito {
+            width: 100%;
+            padding: 17px;
+            border: none;
+            border-radius: 10px;
+            background: #111;
+            color: white;
+            font-size: 17px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .boton-carrito:hover {
+            background: #333;
+        }
+
+        .mensaje {
+            min-height: 25px;
+            margin-top: 14px;
+            color: #24733e;
+            font-weight: bold;
+        }
+
+        .envio {
+            margin-top: 18px;
+            padding: 16px;
+            background: #e8f1e8;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .detalles {
+            width: min(1150px, 92%);
+            margin: 0 auto 60px;
+            padding: 28px;
+            background: white;
+            border-radius: 18px;
+        }
+
+        .detalles p {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 800px) {
+            .producto {
+                grid-template-columns: 1fr;
+                gap: 35px;
+                margin-top: 30px;
+            }
+
+            h1 {
+                font-size: 40px;
+            }
+
+            .cabecera {
+                padding: 18px 4%;
+            }
+
+            .logo {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="producto">
 
-<h1>Colección España</h1>
+<header class="cabecera">
+    <a class="logo" href="index.html">ENMARCAHISTORIA</a>
+    <a class="volver" href="index.html">← Volver a la colección</a>
+</header>
 
-<h2>Gol eterno</h2>
-    <p><strong>Precio:</strong> 29,95 €</p>
+<main class="producto">
 
-<p><strong>Tamaño:</strong> 10x15 cm · 13x18 cm · 25x25 cm</p>
+    <section class="zona-imagen">
+        <img
+            src="marco nogal gol iniesta.jpeg"
+            alt="Cuadro Gol eterno"
+            class="imagen-producto"
+        >
+    </section>
 
-<p><strong>Marco:</strong> Negro, blanco o nogal</p>
+    <section class="informacion">
 
-<button>Comprar</button>
-<div style="text-align:center;">
-<img src="marco nogal gol iniesta.jpeg" alt="Cuadro Gol Eterno" class="imagen-producto"></div><p>
-Ilustración inspirada en el histórico gol que dio a España el Mundial de 2010.
-</p>
+        <span class="coleccion">Colección España</span>
 
-<p>
-Próximamente podrás elegir tamaño, marco y comprar directamente desde esta página.
-</p>
+        <h1>Gol eterno</h1>
 
-<p>
-<a href="index.html">← Volver a la colección</a>
-</p>
-</div>
+        <p class="descripcion">
+            Una ilustración inspirada en uno de los momentos más inolvidables
+            de la historia del fútbol español.
+        </p>
+
+        <p class="precio" id="precio">24,95 €</p>
+
+        <div class="grupo">
+            <span class="titulo-opcion">Elige el tamaño</span>
+
+            <div class="opciones">
+                <div class="opcion">
+                    <input type="radio" name="tamano" id="t10" value="10x15 cm" data-precio="24.95" checked>
+                    <label for="t10">10 × 15 cm</label>
+                </div>
+
+                <div class="opcion">
+                    <input type="radio" name="tamano" id="t13" value="13x18 cm" data-precio="29.95">
+                    <label for="t13">13 × 18 cm</label>
+                </div>
+
+                <div class="opcion">
+                    <input type="radio" name="tamano" id="t25" value="25x25 cm" data-precio="39.95">
+                    <label for="t25">25 × 25 cm</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="grupo">
+            <span class="titulo-opcion">Elige el color del marco</span>
+
+            <div class="opciones">
+                <div class="opcion">
+                    <input type="radio" name="marco" id="negro" value="Negro" checked>
+                    <label for="negro">Negro</label>
+                </div>
+
+                <div class="opcion">
+                    <input type="radio" name="marco" id="blanco" value="Blanco">
+                    <label for="blanco">Blanco</label>
+                </div>
+
+                <div class="opcion">
+                    <input type="radio" name="marco" id="nogal" value="Nogal">
+                    <label for="nogal">Nogal</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="grupo">
+            <label class="titulo-opcion" for="cantidad">Cantidad</label>
+            <input class="cantidad" type="number" id="cantidad" min="1" value="1">
+        </div>
+
+        <button class="boton-carrito" id="botonCarrito">
+            Añadir al carrito
+        </button>
+
+        <p class="mensaje" id="mensaje"></p>
+
+        <div class="envio">
+            ✓ Preparado especialmente para cada pedido.<br>
+            ✓ Lámina artística y marco incluidos.<br>
+            ✓ Envío gratis a partir de 45 €.
+        </div>
+
+    </section>
+
+</main>
+
+<section class="detalles">
+    <h2>La historia detrás del cuadro</h2>
+
+    <p>
+        “Gol eterno” representa aquel instante que quedó grabado para siempre
+        en la memoria de todos los aficionados. Una pieza decorativa pensada
+        para conservar y revivir ese momento histórico.
+    </p>
+</section>
+
+<script>
+    const opcionesTamano = document.querySelectorAll('input[name="tamano"]');
+    const precio = document.getElementById("precio");
+    const boton = document.getElementById("botonCarrito");
+    const mensaje = document.getElementById("mensaje");
+
+    opcionesTamano.forEach(opcion => {
+        opcion.addEventListener("change", () => {
+            const nuevoPrecio = Number(opcion.dataset.precio);
+
+            precio.textContent = nuevoPrecio.toLocaleString("es-ES", {
+                style: "currency",
+                currency: "EUR"
+            });
+        });
+    });
+
+    boton.addEventListener("click", () => {
+        const tamano = document.querySelector('input[name="tamano"]:checked').value;
+        const marco = document.querySelector('input[name="marco"]:checked').value;
+        const cantidad = document.getElementById("cantidad").value;
+
+        mensaje.textContent =
+            cantidad + " unidad(es) de " + tamano +
+            " con marco " + marco +
+            " añadida(s) al carrito.";
+            const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+carrito.push({
+    producto: "Gol eterno",
+    precio: precio.textContent,
+    tamano: tamano,
+    marco: marco,
+    cantidad: cantidad
+});
+
+localStorage.setItem("carrito", JSON.stringify(carrito));
+    });
+</script>
+
 </body>
 </html>
