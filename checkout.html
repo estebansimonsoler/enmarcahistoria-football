@@ -273,7 +273,7 @@
 
       formularioPedido.addEventListener("submit", async function (evento) { 
     evento.preventDefault();
-const respuesta = await fetch("/api/create-checkout-session.php");
+const respuesta = await fetch("/api/create-checkout-session");
 const sesion = await respuesta.json();
 window.location.href = "https://checkout.stripe.com/c/pay/" + sesion.id;
 
